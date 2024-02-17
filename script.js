@@ -32,8 +32,11 @@ createBtn.addEventListener("click", () => {
 // Event listener for handling clicks on notes and delete buttons
 notesContainer.addEventListener("click", (e) => {
     if (e.target.tagName === "IMG") {
-        e.target.parentElement.remove();
-        updateStorage(); // Update localStorage when a note is deleted
+        if (confirm("Are You Sure You Want To Delete Note") == true) {
+            text = "You pressed OK!";
+            e.target.parentElement.remove();
+            updateStorage(); // Update localStorage when a note is deleted
+        } 
     }
 });
 
@@ -44,7 +47,9 @@ notesContainer.addEventListener("input", () => {
 
 // Prevent default behavior of Enter key (creating a new line) in contentEditable elements
 document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && event.target.contentEditable === "true") {
+        document.execCommand("insertlineBreak");
         event.preventDefault();
     }
 });
+
